@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Green Lens – Groundwater Dashboard</title>
+    <meta
+      name="description"
+      content="The Green Lens is a modern dashboard for visualizing groundwater conditions in an alluvial aquifer serving agricultural irrigation."
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="src/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="logo-lockup">
+          <div class="logo-mark" aria-hidden="true"></div>
+          <div class="logo-text">
+            <h1>The Green Lens</h1>
+            <p class="tagline">Aquifer response simulator</p>
+          </div>
+        </div>
+      </header>
+
+      <main class="simulation-main" aria-label="Groundwater pumping simulation">
+        <section class="simulation-panels">
+          <div class="panel panel-slider">
+            <h3 class="panel-title">Simulation controls</h3>
+
+            <div class="slider-group slider-group--pumping">
+              <span class="slider-label">Pumping rate (m³/day)</span>
+              <div class="vertical-slider-wrap">
+                <input
+                  id="pumpingSlider"
+                  type="range"
+                  min="0"
+                  max="1500"
+                  step="25"
+                  value="600"
+                  class="vertical-slider"
+                  aria-label="Pumping rate 0 to 1500 cubic meters per day"
+                />
+              </div>
+              <p id="pumpingValue" class="slider-value pumping-value">600 m³/day</p>
+            </div>
+
+            <div class="slider-group slider-group--time">
+              <span class="slider-label">Time selection</span>
+              <input
+                id="timeSlider"
+                type="range"
+                min="0"
+                max="311"
+                step="1"
+                value="311"
+                class="time-slider"
+                aria-label="Select end date from Jan 2000 to Dec 2025"
+              />
+              <p id="timeValue" class="slider-value time-value">Dec 2025</p>
+            </div>
+          </div>
+
+          <div class="panel panel-chart">
+            <h3 class="panel-title">Groundwater level (2000–2025)</h3>
+            <div class="chart-canvas-container chart-canvas-container--simulation">
+              <canvas id="groundwaterChart" aria-label="Groundwater level time series"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <section class="model-description">
+          <h4>How this aquifer model works</h4>
+          <p>
+            The simulator solves a simple groundwater balance each month from January 2000 to
+            December 2025:
+            <code>H(t+1) = H(t) + R(t) − α · P(t) − β · (H(t) − H<sub>eq</sub>)</code>, where
+            <code>H(t)</code> is groundwater level, <code>R(t)</code> is seasonal recharge, and
+            <code>P(t)</code> is pumping demand.
+          </p>
+          <p>
+            Recharge follows a sinusoidal pattern
+            <code>R(t) = 0.4 · sin(2πt / 12)</code>, representing wetter and drier seasons, while
+            pumping is set by the pumping slider and scaled by seasonal irrigation demand
+            <code>P(t) = PumpSlider · max(0, sin(2π(t−3)/12))</code>, with higher use in summer.
+          </p>
+          <p>
+            The parameters <code>α = 0.02</code>, <code>β = 0.08</code>, and
+            <code>H<sub>eq</sub> = 10</code> control how strongly pumping removes water and how
+            quickly the aquifer relaxes back toward its equilibrium level. Use the sliders to see
+            how sustained high pumping can deepen groundwater levels over years, and how lower
+            rates allow the system to recover toward equilibrium.
+          </p>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <p>&copy; <span id="footer-name">Your Name</span> &middot; Spring 2026</p>
+      </footer>
+    </div>
+
+    <script src="src/script.js"></script>
+  </body>
+</html>
+
