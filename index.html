@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HydroAgro Manager – Irrigation Analytics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="logo-lockup">
+          <div class="logo-mark" aria-hidden="true"></div>
+          <div class="logo-text">
+            <h1>HydroAgro Manager</h1>
+            <p class="tagline">Irrigation & Groundwater Resource Simulation</p>
+          </div>
+        </div>
+      </header>
+
+      <main class="simulation-main">
+        <div class="dashboard-grid">
+          <div class="control-panel">
+            <h3>System Inputs (Yearly)</h3>
+            <div class="slider-group">
+              <label for="precipSlider">Precipitation: <span id="precipValue">400</span> mm/yr</label>
+              <input type="range" id="precipSlider" min="0" max="1000" step="10" value="400" />
+            </div>
+            
+            <div class="slider-group">
+              <label for="pondSlider">Recharge Pond: <span id="pondValue">100,000</span> m³/yr</label>
+              <input type="range" id="pondSlider" min="0" max="500000" step="5000" value="100000" />
+            </div>
+
+            <div class="slider-group">
+              <label for="pumpSlider">Irrigation Pumping: <span id="pumpValue">500,000</span> m³/yr</label>
+              <input type="range" id="pumpSlider" min="0" max="1500000" step="10000" value="500000" />
+            </div>
+
+            <div class="slider-group time-group">
+              <label for="timeSlider">Forecast Timeline: <span id="timeValue">Dec 2025</span></label>
+              <input type="range" id="timeSlider" min="12" max="312" step="12" value="312" />
+            </div>
+          </div>
+
+          <div class="chart-panel">
+            <canvas id="groundwaterChart"></canvas>
+          </div>
+        </div>
+
+        <section class="explanation-section">
+          <h4>Management Logic</h4>
+          <p>
+            <strong>HydroAgro Manager</strong> models a closed aquifer system. In this environment, the "Depth to Water Table" tracks the net cumulative change from seasonal inputs and extractions.
+          </p>
+          <ul>
+            <li><strong>Sustainability:</strong> If the purple-blue line trends downward (increasing depth), pumping exceeds the total recharge.</li>
+            <li><strong>Closed System:</strong> No natural baseflow exists to recover the water level; stability only occurs through manual balance.</li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <p>&copy; 2026 HydroAgro Management Project</p>
+      </footer>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
